@@ -21,10 +21,16 @@
     <h1> 팀이름: {{team.name}} </h1>
     <h3>팀 생성자 : {{team.creater}}</h3>
     <p> 팀 설명: {{team.description}} </p>
+    <strong>나:</strong>
+    <ul>
+        {{ request.user }}
+    </ul>
     <strong>멤버:</strong>
     <ul>
         {% for member in team.members.all %}
+            {% if member != request.user %}
             <li>{{ member.username }}</li>
+            {% endif %}
         {% endfor %}
     </ul>
     <!-- 팀 수정 / 삭제 -->
@@ -39,8 +45,8 @@
     <ul>
         {% for task in tasks %}
             <li>
-                <a href="{% url 'teams:team_detail' task.id %}">{{ task.title }}</a> - 마감일: {{ task.deadline }} 담당자: {{ task.manager }}
-                {% if request.user == team.members %}
+                {{ task.title }}</a> - 마감일: {{ task.deadline }} 담당자: {{ task.manager }}
+                {% if request.user in team.members.all %}
                 <a href="{% url 'teams:task_update' task.id %}">할일 수정하기</a>
                 <a href="{% url 'teams:task_delete' task.id %}">할일 삭제하기</a>
                 {% endif %}
