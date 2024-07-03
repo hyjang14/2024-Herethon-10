@@ -27,11 +27,50 @@
             <li>{{ member.username }}</li>
         {% endfor %}
     </ul>
-    <!-- 글 수정 / 삭제 -->
+    <!-- 팀 수정 / 삭제 -->
     {% if request.user == team.creater %}
     <a href="{% url 'teams:team_update' team.id %}">팀 수정하기</a>
     <a href="{% url 'teams:team_delete' team.id %}">팀 삭제하기</a>
     {% endif %}
-    <!--글 수정/삭제 여기까지-->
+    <!-- 팀 수정/삭제 여기까지-->
+
+    <!-- 팀의 할일 목록 출력 -->
+    <h2>팀의 할일 목록</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{% url 'teams:team_detail' task.id %}">{{ task.title }}</a> - 마감일: {{ task.deadline }} 담당자: {{ task.manager }}
+                {% if request.user == team.members %}
+                <a href="{% url 'teams:task_update' task.id %}">할일 수정하기</a>
+                <a href="{% url 'teams:task_delete' task.id %}">할일 삭제하기</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>할일이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- 할일 생성 -->
+    <a href="{% url 'teams:task_create' team.id %}">할일 생성하기</a>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if tasks.has_previous %}
+                <a href="?page=1">&laquo; 처음</a>
+                <a href="?page={{ tasks.previous_page_number }}">이전</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}.
+            </span>
+
+            {% if tasks.has_next %}
+                <a href="?page={{ tasks.next_page_number }}">다음</a>
+                <a href="?page={{ tasks.paginator.num_pages }}">마지막 &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <!-- 페이지네이션 여기까지 -->
 </body>
 </html>

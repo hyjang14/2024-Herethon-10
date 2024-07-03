@@ -1,5 +1,5 @@
 from django import forms
-from .models import Team
+from .models import Team, Task
 from accounts.models import User
 
 class TeamModelForm(forms.ModelForm):
@@ -21,6 +21,24 @@ class TeamModelForm(forms.ModelForm):
         widgets = {
             'members': forms.CheckboxSelectMultiple(),  # 여러 명 선택 가능한 체크박스 위젯
         }
+
+#-------------------------------------------------------------------------------------
+
+class TasksModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        team = kwargs.pop('team', None)
+        super(TasksModelForm, self).__init__(*args, **kwargs)
+        if team:
+            self.fields['manager'].queryset = team.members.all()  #팀에 속한 유저로 제한
+
+    deadline = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'})
+    )
+
+    class Meta:
+        model = Task
+        fields = ['title', 'manager', 'deadline', 'finished']
+        
 
 #-------------------------------------------------------------------------------------
 

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.urls import reverse_lazy
-from .models import Team
+from .models import Team, Task
 from accounts.models import User
 from django.shortcuts import get_object_or_404
-from teams.forms import TeamModelForm, UserSearchForm
+from teams.forms import TeamModelForm, UserSearchForm, TasksModelForm
 from django.core.paginator import Paginator
 
 
@@ -52,7 +52,7 @@ def team_update(request, id):
             unfinished_team.creater = request.user
             unfinished_team.save()
 
-            # 유저 맴버에 추가하기
+            # 유저 멤버에 추가하기
             unfinished_team.members.add(request.user)
             
             member_ids = request.POST.getlist('members')  # 선택된 멤버들의 ID 리스트
@@ -71,7 +71,8 @@ def team_update(request, id):
 def team_delete(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     team.delete()
-    return redirect('accounts:base') 
+    return redirect('accounts:base')
+
 
 # 팀 전체 조회
 def team_list(request):
@@ -82,10 +83,59 @@ def team_list(request):
     return render(request, 'team_list.html', {'teams': teams})
 
 # 팀 상세 조회
-def team_detail(request, id): 
+def team_detail(request, id):
     team = get_object_or_404(Team, pk=id)
-    # team = get_object_or_404(Team, pk=id)
-    return render(request, 'team_detail.html', {'team' : team, 'id':id})
+    tasks = team.task_set.all().order_by('-deadline')  # 팀에 할당된 모든 할일 조회
+    paginator = Paginator(tasks, 5)
+    pagnum = request.GET.get('page')
+    tasks = paginator.get_page(pagnum)
+    return render(request, 'team_detail.html', {'team': team, 'tasks': tasks})
+
+#--------------------------------------------------------------------------------
+# 할 일
+
+# 할 일 생성하기
+def task_create(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    if request.method == 'POST':
+        form = TasksModelForm(request.POST, request.FILES, team=team)
+        if form.is_valid():
+            task_create = form.save(commit=False)
+            task_create.team = team
+            task_create.save()
+            return redirect('teams:team_detail', id=team_id)
+    else:
+        form = TasksModelForm(team=team)
+    return render(request, 'task_create.html', {'form': form, 'team': team})
+
+# 할 일 수정하기
+def task_update(request, id):
+    task = get_object_or_404(Task, pk=id)
+    team = task.team
+    if request.method == 'POST':
+        form = TasksModelForm(request.POST, instance=task, team=team)
+        if form.is_valid():
+            form.save()
+            return redirect('teams:team_detail', id=task.team.id)
+    else:
+        form = TasksModelForm(instance=task, team=task.team)
+    return render(request, 'task_create.html', {'form': form, 'task': task})
+
+# 할 일 삭제하기
+def task_delete(request, id):
+    task = get_object_or_404(Task, pk=id)
+    task.delete()
+    return redirect('teams:team_detail', id=id)
+
+'''
+def task_detail(request, id):
+    task_detail = get_object_or_404(Team, pk=id)
+    tasks = task_detail.task_set.all().order_by('-deadline')  # 팀에 할당된 모든 할일 조회
+    paginator = Paginator(tasks, 5)
+    pagnum = request.GET.get('page')
+    tasks = paginator.get_page(pagnum)
+    return render(request, 'task_detail.html', {'tasks': tasks})
+'''
 
 #--------------------------------------------------------------------------------
 
