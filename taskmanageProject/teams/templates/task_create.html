@@ -11,11 +11,29 @@
     <h2>할일 생성</h2>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="{{ form.title.id_for_label }}">할일 제목:</label><br>
+        {{ form.title }}<br><br>
+
+        <label for="id_manager">담당자:</label><br>
+        <select id="id_manager" name="manager">
+            {% for member in team.members.all %}
+                <option value="{{ member.id }}" {% if member.id == selected_manager.id %}selected{% endif %}>{{ member.username }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        현재 담당자: {{ task.manager }} <br><br>
+
+        <label for="{{ form.deadline.id_for_label }}">마감일:</label><br>
+        {{ form.deadline }}<br><br>
+
+        <label for="{{ form.finished.id_for_label }}">완료 여부:</label><br>
+        {{ form.finished }}<br><br>
+
         <button type="submit">저장</button>
     </form>
 
-    <a href="{% url 'teams:team_detail' team.id %}">취소</a>
+    <div id="selectedManagerDisplay"></div>  <!-- 선택된 담당자를 표시할 곳 -->
 
     {% if form.errors %}
         <p style="color: red;">{{ form.errors }}</p>

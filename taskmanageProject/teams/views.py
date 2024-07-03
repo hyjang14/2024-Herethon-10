@@ -95,15 +95,17 @@ def team_detail(request, id):
 # 할 일
 
 # 할 일 생성하기
-def task_create(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+def task_create(request, id):
+    team = get_object_or_404(Team, pk=id)
     if request.method == 'POST':
-        form = TasksModelForm(request.POST, request.FILES, team=team)
+        form = TasksModelForm(request.POST, team=team)
         if form.is_valid():
             task_create = form.save(commit=False)
             task_create.team = team
+            #task_create.manager = request.POST.get('manager')
+            managers = form.cleaned_data['manager'] 
             task_create.save()
-            return redirect('teams:team_detail', id=team_id)
+            return redirect('teams:team_detail', id=id)
     else:
         form = TasksModelForm(team=team)
     return render(request, 'task_create.html', {'form': form, 'team': team})
@@ -119,13 +121,16 @@ def task_update(request, id):
             return redirect('teams:team_detail', id=task.team.id)
     else:
         form = TasksModelForm(instance=task, team=task.team)
-    return render(request, 'task_create.html', {'form': form, 'task': task})
+    return render(request, 'task_create.html', {'form': form, 'task': task, 'team': team})
+
 
 # 할 일 삭제하기
 def task_delete(request, id):
     task = get_object_or_404(Task, pk=id)
+    team_id = task.team.id  # 할일이 속한 팀의 id를 가져옴
     task.delete()
-    return redirect('teams:team_detail', id=id)
+    return redirect('teams:team_detail', id=team_id)
+
 
 '''
 def task_detail(request, id):

@@ -38,7 +38,6 @@ class TasksModelForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'manager', 'deadline', 'finished']
-        
 
 #-------------------------------------------------------------------------------------
 
