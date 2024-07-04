@@ -19,7 +19,7 @@ def signup(request,  edit=False):
     if request.method == 'POST' or request.method == 'FILES':
         form = CustomUserForm(request.POST, request.FILES)
         if form.is_valid():
-            if request.POST['password'] == request.POST['repeat']:
+            if request.POST['password'] == request.POST['userPasswordre']:
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
                 name = form.cleaned_data['name']
@@ -66,7 +66,7 @@ def signup(request,  edit=False):
                 return render(request, 'join.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
         # 7. 아이디가 이미 존재할 경우
         else:
-            error_message = "이미 존재하는 아이디입니다." 
+            error_message = "이미 존재하는 아이디이거나 입력 형태가 올바르지 않습니다." 
             return render(request, 'join.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
     else:
         form = CustomUserForm()
@@ -91,26 +91,26 @@ def user_update(request, id, edit=True):
         # 1. 아이디 길이 검사
             if len(username) < 6 or len(username) > 25:
                 error_message = "아이디를 6자 이상 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
         # 2. 이름 길이 검사
             if len(name) < 2 or len(name) > 15:
                 error_message = "이름을 2자 이상 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
          # 3. 전화번호 중복 & 길이 검사
             if User.objects.filter(phone=phone).exclude(pk=user.pk).exists():
                 error_message = "이미 가입되어있는 전화번호입니다." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
             if len(phone) != 11:
                 error_message = "'-'를 제외한 전화번호를 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
         # 4. 이메일 중복 검사
             if User.objects.filter(email=email).exclude(pk=user.pk).exists():
                 error_message = "이미 존재하는 이메일입니다." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
 
             user.username = username
             user.name = name
@@ -125,11 +125,11 @@ def user_update(request, id, edit=True):
         #  5. 아이디가 이미 존재할 경우
         else:
             error_message = "이미 존재하는 아이디입니다." 
-            return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+            return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
     else:
         form = CustomUserUpdateForm(instance=user)
 
-    return render(request, 'signup.html', {'form':form, 'id':id, 'is_edit': edit})
+    return render(request, 'userinfo_modify.html', {'form':form, 'id':id, 'is_edit': edit})
 
 
 
