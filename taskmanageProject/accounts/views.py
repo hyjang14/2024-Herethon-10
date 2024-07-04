@@ -162,6 +162,7 @@ def logout(request):
 def my_page(request, id):
     user = get_object_or_404(User, pk=id)
     teams = Team.objects.filter(creater=user)
+    teams = user.teams.all().order_by('-created_at')
     return render(request, 'mypage.html', {'user': user, 'teams':teams, 'id':id})
 
 

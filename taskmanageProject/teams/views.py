@@ -76,11 +76,11 @@ def team_delete(request, team_id):
 # 팀 전체 조회
 def team_list(request):
     if request.user.is_authenticated:
-        liked_teams = Team.objects.filter(like_users=request.user)
-        other_teams = Team.objects.exclude(like_users=request.user)
+        liked_teams = Team.objects.filter(like_users=request.user).order_by('-created_at')
+        other_teams = Team.objects.exclude(like_users=request.user).order_by('-created_at')
     else:
-        liked_teams = Team.objects.none()
-        other_teams = Team.objects.all()
+        liked_teams = Team.objects.none().order_by('-created_at')
+        other_teams = Team.objects.all().order_by('-created_at')
     
     context = {
         'liked_teams': liked_teams,
@@ -98,7 +98,7 @@ def team_list(request):
 # 팀 상세 조회
 def team_detail(request, id):
     team = get_object_or_404(Team, pk=id)
-    tasks = team.task_set.all().order_by('deadline')  # 팀에 할당된 모든 할일 조회
+    tasks = team.task_set.all() # 팀에 할당된 모든 할일 조회
     paginator = Paginator(tasks, 5)
     pagnum = request.GET.get('page')
     tasks = paginator.get_page(pagnum)
@@ -145,6 +145,7 @@ def task_create(request, id):
     tasks = Task.objects.filter(team=team)
     return render(request, 'task_create.html', {'form': form, 'team': team, 'tasks': tasks})
 
+
 # 할 일 수정하기
 def task_update(request, id):
     task_update = get_object_or_404(Task, pk=id)
@@ -169,7 +170,6 @@ def task_update(request, id):
 
 
 
-# 할 일 삭제하기
 # 할 일 삭제하기
 def task_delete(request, id):
     task = get_object_or_404(Task, pk=id)

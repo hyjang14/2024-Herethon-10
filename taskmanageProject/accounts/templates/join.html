@@ -1,5 +1,6 @@
 {% load static %}
 
+<!-- 회원가입 페이지 -->
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -13,34 +14,39 @@
     <link rel="stylesheet" href="{% static 'assets/css/sytle.css' %}">
 
     <!-- main 페이지 css -->
-    <link rel="stylesheet" href="{% static 'assets/css/section/login.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/section/join.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/section/login.css' %}?after">
+    <link rel="stylesheet" href="{% static 'assets/css/section/join.css' %}?after">
     <title>기로프</title>
 
     <title>기로프-회원가입</title>
+    <script>
+        var staticUrl = "{% static 'assets/img/' %}";
+        const staticPasswordShowImg = "{% static 'assets/img/passwordshow.svg' %}";
+    </script>
 </head>
 
 <body>
     <div class="join_wrap container">
-        <div class="header">
-            <div class="top">
-                <button class="backbtn">
-                    <a href="{% url 'accounts:login' %}">
-                        <img src="{% static 'assets/img/back.svg' %}" alt="backbtn">
-                    </a>
-                </button>
-                <h1>회원가입</h1>
-            </div>
-            <!-- 수정 필요!! -->
-            <div class="profile">
-                <img src="{% static 'assets/img/profile.png' %}" alt="profile" class="profileimg">
-                {# {{ form.profile }} #}
-                <label for="profile-input">
-                <img src="{% static 'assets/img/profilebtn.svg' %}" alt="profilebtn" class="profilebtn">
-                </label>
-            </div>
-        </div>
         <form action="" method="POST" enctype="multipart/form-data" name="login">
+            <div class="header">
+                <div class="top">
+                    <button class="backbtn" type="button">
+                        <a href="{% url 'accounts:login' %}">
+                            <img src="{% static 'assets/img/back.svg' %}" alt="backbtn">
+                        </a>
+                    </button>
+                    <h1>회원가입</h1>
+                </div>
+                <!-- 수정 필요!! -->
+                <div class="profile">
+                    <img src="{% static 'assets/img/profile.png' %}" alt="profile" class="profileimg">
+                    {{ form.profile }}
+                    <label for="profile-input">
+                    <img src="{% static 'assets/img/profilebtn.svg' %}" alt="profilebtn" class="profilebtn">
+                    </label>
+                </div>
+            </div>
+            
             {% csrf_token %}
 
             <!-- 회원가입 조건 미충족 시, 에러 메시지 출력 -->
@@ -57,44 +63,82 @@
                 {{ form.email }}
             </div>
             <div class="userPass">
-                <label>비밀번호 *</label>
-                <div>
+                <label for="userPassword">비밀번호 *</label>
+                <div class="input-container">
                     {{ form.password }}
+                    <!-- <input type="password" id="userPassword" name="userPassword" placeholder="8자 이상"> -->
                     <div class="box">
-                        <button><img class="delete" src="{% static 'assets/img/deletebtn.svg' %}" alt="delete"></button>
-                        <button><img src="{% static 'assets/img/password.svg' %}" alt="password"></button>
+                        <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
+                        <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
+                        <button type="button" class="clear" onclick="clearInput('userPassword')">
+                            <img src="{% static 'assets/img/deletebtn.svg' %}" name="delete" alt="delete">
+                        </button> 
+                        <button type="button" class="toggle-password" onclick="togglePassword('id_password', this)">
+                            <img src="{% static 'assets/img/passwordshow.svg' %}" name="password" alt="show">
+                        </button>
                     </div>
                 </div>
+                <!-- <small class="error" id="userPasswordError">비밀번호를 8자 이상 입력해주세요.</small> -->
             </div>
             <div class="userPassre">
-                <label>비밀번호 확인 *</label>
-                <div>
-                    <input type="password" name="repeat" id="userPasswordre" placeholder="비밀번호를 한 번 더 입력해주세요.">
+                <label for="userPasswordre">비밀번호 확인 *</label>
+                <div class="input-container">
+                    <input type="password" id="userPasswordre" name="userPasswordre" placeholder="비밀번호를 한 번 더 입력해주세요.">
                     <div class="box">
-                        <button><img class="delete" src="{% static 'assets/img/deletebtn.svg' %}" alt="delete"></button>
-                        <button><img src="{% static 'assets/img/password.svg' %}" alt="password"></button>
+                        <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
+                        <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
+                        <button type="button" class="clear" onclick="clearInput('userPasswordre')">
+                            <img src="{% static 'assets/img/deletebtn.svg' %}" name="delete" alt="delete">
+                        </button>
+                        <button type="button" class="toggle-password" onclick="togglePassword('userPasswordre', this)">
+                            <img src="{% static 'assets/img/passwordshow.svg' %}" name="password" alt="show">
+                        </button>
+                    </div>
+                </div>
+                <!-- <small class="error" id="userPasswordreEmptyError">비밀번호를 한 번 더 입력해주세요.</small>
+                <small class="error" id="userPasswordreError">비밀번호가 일치하지 않습니다.</small> -->
+            </div>
+            <div class="userName">
+                <label for="userName">이름 *</label>
+                <div class="input-container">
+                    {{ form.name }}
+                    <div class="box">
+                        <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
+                        <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
+                    </div>
+                </div>
+                <!-- <small class="error" id="userNameError">이름을 입력해주세요.</small> -->
+            </div>
+            <div class="userPhone">
+                <label for="userPhone">전화번호 *</label>
+                <div class="input-container">
+                    {{ form.phone }}
+                    <div class="box"> 
+                        <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
+                        <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
                     </div>
                 </div>
             </div>
-            <div class="userName">
-                <label>이름 *</label>
-                {{ form.name }}
-            </div>
-            <div class="userPhone">
-                <label>전화번호 *</label>
-                {{ form.phone }}
-            </div>
             <div class="userBirth">
-                <label>생년월일</label>
-                {{ form.birthdate }}
+                <label for="userBirth">생년월일</label>
+                <div class="input-container">
+                    {{ form.birthdate }}
+                    <div class="box">
+                        <img src=" {% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
+                        <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
+                    </div>
+                </div>
+                <!-- <small class="error" id="userBirthError">유효한 생년월일을 입력해주세요. (예: 2000-01-01)</small> -->
             </div>
+
+            <!-- agree -->
             <div class="agree">
                 <div class="checkbox-item">
-                    <input type="checkbox" id="allAgree" class="join_check">
+                    <input type="checkbox" id="allAgree" name="allAgree" class="join_check">
                     <label for="allAgree" class="allAgree">아래 약관에 모두 동의합니다.</label>
                 </div>
                 <div class="checkbox-item check_alone">
-                    <input type="checkbox" id="termsAgree" class="join_check">
+                    <input type="checkbox" id="termsAgree" name="termsAgree" class="join_check">
                     <label for="termsAgree">이용약관 필수 동의</label>
                     <a href="#">자세히보기</a>
                 </div>
@@ -104,17 +148,18 @@
                     <a href="#">자세히보기</a>
                 </div>
                 <div class="checkbox-item check_alone">
-                    <input type="checkbox" id="marketingAgree" class="join_check">
+                    <input type="checkbox" id="marketingAgree" name="marketingAgree" class="join_check">
                     <label for="marketingAgree">마케팅 정보 수신 선택 동의</label>
                     <a href="#">자세히보기</a>
                 </div>
             </div>
-            <button class="joinbtn">다음</button>
-        </form>
+            <button class="joinbtn joinbtn-disabled" type="submit">다음</button>
         </form>
     </div>
-
     <script src="{% static 'js/join.js' %}"></script>
+    <script src="{% static 'js/popup.js' %}" ></script>
+    <script src="{% static 'js/password.js' %}"></script>
+    <script src="{% static 'js/imgupload.js' %}"></script> 
 </body>
 
 </html>

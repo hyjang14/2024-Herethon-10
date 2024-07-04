@@ -1,4 +1,6 @@
 {% load static %}
+
+<!-- 팀 상세페이지  -->
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -29,14 +31,17 @@
                 <form action="{% url 'teams:likes' team.id %}" method='POST'>
                 {% csrf_token %}
                     {% if user in team.like_users.all %}
-                        좋아요누름<button class="pin"><img class="pinimg" src="{% static 'assets/img/pin.svg' %}" alt="pin"></button>
+                        <button class="pin"><img class="pinimg" src="{% static 'assets/img/pin_bold.svg' %}" alt="pin"></button>
                     {% else %}
                         <button class="pin"><img class="pinimg" src="{% static 'assets/img/pin.svg' %}" alt="pin"></button>
                     {% endif %}
                 </form>
             <!-- 로그인 안 했을 때 -->
             {%else %}
-                팀 고정은 로그인 후 사용해주세요.
+                <button class="pin">
+                    <img class="pinimg" src="{% static 'assets/img/pin_bold.svg' %}" alt="pin" style="opacity: 0;">
+                </button>
+                <!-- 팀 고정은 로그인 후 사용해주세요. -->
             {% endif %}
 
                 <h2>{{ team.name }}</h2>

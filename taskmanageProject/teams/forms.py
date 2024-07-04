@@ -18,6 +18,7 @@ class TeamModelForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ['name', 'description', 'members', 'photo']
+        ordering = ['-created_at']
         widgets = {
             'members': forms.CheckboxSelectMultiple(),  # 여러 명 선택 가능한 체크박스 위젯
             'name': forms.TextInput(attrs={
