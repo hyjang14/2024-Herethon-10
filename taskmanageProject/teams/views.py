@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.urls import reverse_lazy
+
 from .models import Team, Task
+import json
+
 from accounts.models import User
 from django.shortcuts import get_object_or_404
 from teams.forms import TeamModelForm, TasksModelForm
@@ -73,6 +76,14 @@ def team_delete(request, team_id):
     team.delete()
     return redirect('accounts:base') 
 
+# 팀 할일 조회
+def get_team_task_data(team):
+    task_data = []
+    for member in team.members.all():
+        completed_tasks = Task.objects.filter(manager=member, finished=True).count()
+        task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
+    return task_data
+
 # 팀 전체 조회
 def team_list(request):
     if request.user.is_authenticated:
@@ -81,13 +92,17 @@ def team_list(request):
     else:
         liked_teams = Team.objects.none().order_by('-created_at')
         other_teams = Team.objects.all().order_by('-created_at')
-    
+
+    liked_team_data = {team.id: get_team_task_data(team) for team in liked_teams}
+    other_team_data = {team.id: get_team_task_data(team) for team in other_teams}
+
     context = {
         'liked_teams': liked_teams,
         'other_teams': other_teams,
+        'liked_team_data': json.dumps(liked_team_data),
+        'other_team_data': json.dumps(other_team_data),
     }
     return render(request, 'index.html', context)
-
 # def team_list(request):   
 #     teams = Team.objects.all().order_by('-created_at')
 #     paginator = Paginator(teams, 3)
@@ -99,10 +114,16 @@ def team_list(request):
 def team_detail(request, id):
     team = get_object_or_404(Team, pk=id)
     tasks = team.task_set.all() # 팀에 할당된 모든 할일 조회
+
+    team_data = {team.id: get_team_task_data(team) in team}
+    context = {
+        'team_data': json.dumps(team_data)
+    }
+
     paginator = Paginator(tasks, 5)
     pagnum = request.GET.get('page')
     tasks = paginator.get_page(pagnum)
-    return render(request, 'team_detail.html', {'team': team, 'tasks': tasks})
+    return render(request, 'team_detail.html', {'team': team, 'tasks': tasks}, context)
 
 
 # 팀 좋아요

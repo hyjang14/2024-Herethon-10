@@ -89,10 +89,12 @@
                 {% endfor %}
             </div>
             <div class="graph">
-                <canvas id="doughnut-chart"></canvas>
+                <canvas id="doughnut-chart-{{ team.id }}" width="100" height="100"></canvas>
                 <p>00%</p>
             </div>
         </div>
+        </div>
+
 
         <!-- 팀원 수정 -->
         <div class="add_team none">
@@ -142,6 +144,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
    
