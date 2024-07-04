@@ -29,16 +29,25 @@ class TasksModelForm(forms.ModelForm):
         team = kwargs.pop('team', None)
         super(TasksModelForm, self).__init__(*args, **kwargs)
         if team:
-            self.fields['manager'].queryset = team.members.all()  #팀에 속한 유저로 제한
+            self.fields['manager'].queryset = team.members.all()
 
     deadline = forms.DateTimeField(
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'})
     )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        manager_ids = self.cleaned_data.get('manager')
+        if manager_ids:
+            cleaned_data['manager'] = User.objects.filter(pk__in=manager_ids)
+        return cleaned_data
+
     class Meta:
         model = Task
         fields = ['title', 'manager', 'deadline', 'finished']
-
+        widgets = {
+            'manager': forms.CheckboxSelectMultiple()
+        }
 #-------------------------------------------------------------------------------------
 
 # 유저 찾기(자바스크립트로 구현해야함)
