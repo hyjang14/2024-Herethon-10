@@ -12,6 +12,10 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+       
+    def like_count(self):
+        return self.like_users.count()
+
 
 class Task(models.Model):
     title = models.CharField(verbose_name="할일 제목", max_length=100)
@@ -25,6 +29,4 @@ class Task(models.Model):
     
     def summary(self):
         return self.description[10]
-    
-    def like_count(self):
-        return self.like_users.count()
+ 
