@@ -103,7 +103,10 @@ def task_create(request, id):
             task_create = form.save(commit=False)
             task_create.team = team
             #task_create.manager = request.POST.get('manager')
-            managers = form.cleaned_data['manager'] 
+            manager_id = request.POST.get('manager')
+            if manager_id:
+                manager = get_object_or_404(User, id=manager_id)
+                task_create.manager.set([manager])
             task_create.save()
             return redirect('teams:team_detail', id=id)
     else:
@@ -117,12 +120,18 @@ def task_update(request, id):
     if request.method == 'POST':
         form = TasksModelForm(request.POST, instance=task, team=team)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            manager_id = request.POST.get('manager')
+            if manager_id:
+                manager = get_object_or_404(User, pk=manager_id)
+                task.save()
+                task.manager.set([manager])
+            else:
+                task.save()
             return redirect('teams:team_detail', id=task.team.id)
     else:
         form = TasksModelForm(instance=task, team=task.team)
     return render(request, 'task_create.html', {'form': form, 'task': task, 'team': team})
-
 
 # 할 일 삭제하기
 def task_delete(request, id):

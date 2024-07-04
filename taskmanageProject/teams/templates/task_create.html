@@ -22,6 +22,7 @@
         </select>
         <br><br>
 
+
         현재 담당자: {{ task.manager }} <br><br>
 
         <label for="{{ form.deadline.id_for_label }}">마감일:</label><br>
@@ -33,10 +34,17 @@
         <button type="submit">저장</button>
     </form>
 
-    <div id="selectedManagerDisplay"></div>  <!-- 선택된 담당자를 표시할 곳 -->
-
     {% if form.errors %}
         <p style="color: red;">{{ form.errors }}</p>
     {% endif %}
+
+
+    <script>
+        document.getElementById('id_manager').addEventListener('change', function() {
+            const selectedManagerId = this.value;
+            console.log('Selected manager ID:', selectedManagerId);
+        });
+    </script>
+
 </body>
 </html>
