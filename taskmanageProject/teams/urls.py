@@ -15,4 +15,6 @@ urlpatterns = [
     path('task_delete/<int:id>/', views.task_delete, name='task_delete'),
     #path('task_list/', views.team_list, name='task_list'),
     #path('task_detail/<int:id>/', views.team_detail, name='task_detail'),
+    # 팀 좋아요
+    path('<int:team_id>/likes/', views.likes, name='likes'),
 ]
