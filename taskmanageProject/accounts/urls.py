@@ -16,4 +16,10 @@ urlpatterns = [
 
     # 마이페이지
     path('my_page/<int:id>/', views.my_page, name='my_page'),
+
+    path('agree1/', views.agree1, name='agree1'), 
+    path('agree2/', views.agree2, name='agree2'), 
+    path('agree3/', views.agree3, name='agree3'), 
+
+    path('joinclear/', views.joinclear, name='joinclear'), 
 ]

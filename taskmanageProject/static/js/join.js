@@ -124,16 +124,16 @@ function validate() {
 }
 
 // 폼 제출 이벤트 리스너
-document.forms['login'].addEventListener('submit', function(event) {
+document.forms['join'].addEventListener('submit', function(event) {
     if (!validate()) {
         event.preventDefault();
     }
 });
 
 // 모든 입력 필드에 이벤트 리스너 추가 (처음에 유효성 검사 실행되지 않도록 수정)
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('join-form');
 inputs.forEach(input => {
-    input.addEventListener('input', function() {
+    input.addEventListener('join-form', function() {
         document.querySelector('.joinbtn').classList.remove('joinbtn-disabled');
     });
 });

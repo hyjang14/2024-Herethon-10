@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.urls import reverse_lazy
 from .models import Team, Task
 from accounts.models import User
 from django.shortcuts import get_object_or_404
-from teams.forms import TeamModelForm, TasksModelForm
+from teams.forms import TeamModelForm, TasksModelForm, TeamUpdateModelForm
 from django.core.paginator import Paginator
 
+
+''' 팀 '''
 
 # 팀 생성하기
 class TeamCreateView(View):
@@ -14,7 +15,7 @@ class TeamCreateView(View):
     def get(self, request):
         form = TeamModelForm(current_user=request.user)
         users = User.objects.all().order_by('username')  # 모든 사용자를 가져옴
-        return render(request, 'index_create.html', {'form': form, 'users': users})
+        return render(request, 'team_made.html', {'form': form, 'users': users})
 
     # 팀 생성한 후 team_list.html로 리다이렉트
     def post(self, request):
@@ -35,18 +36,18 @@ class TeamCreateView(View):
                     user = User.objects.get(pk=member_id)
                     unfinished_team.members.add(user)
                 
-                return redirect('teams:team_list')
+                return redirect('accounts:my_page',  id=request.user.id)
         else: 
             users = User.objects.all().order_by('username')
             form = TeamModelForm(current_user=request.user)  # 현재 로그인한 사용자 정보 전달
-        return render(request, 'index_create.html', {'form': form, 'users': users})
+        return render(request, 'team_made.html', {'form': form, 'users': users})
        
 
 # 팀 수정하기
 def team_update(request, id):
-    post = get_object_or_404(Team, pk=id)
+    team = get_object_or_404(Team, pk=id)
     if request.method == 'POST' or request.method == 'FILES':
-        form = TeamModelForm(request.POST, request.FILES, instance=post, current_user=request.user)
+        form = TeamUpdateModelForm(request.POST, request.FILES, instance=team, current_user=request.user)
         if form.is_valid():
             unfinished_team = form.save(commit=False)
             unfinished_team.creater = request.user
@@ -61,10 +62,10 @@ def team_update(request, id):
                 user = User.objects.get(pk=member_id)
                 unfinished_team.members.add(user)
             
-            return redirect('teams:team_detail',  id=id)
+            return redirect('accounts:my_page',  id=request.user.id)
     else:
-        form = TeamModelForm(instance=post, current_user=request.user)
-        return render(request, 'team_create.html', {'form':form, 'id':id})
+        form = TeamModelForm(instance=team, current_user=request.user)
+        return render(request, 'team_member.html', {'form':form, 'id':id, 'team':team})
     
 
 # 팀 삭제하기
@@ -88,12 +89,6 @@ def team_list(request):
     }
     return render(request, 'index.html', context)
 
-# def team_list(request):   
-#     teams = Team.objects.all().order_by('-created_at')
-#     paginator = Paginator(teams, 3)
-#     pagnum = request.GET.get('page')
-#     teams = paginator.get_page(pagnum)
-#     return render(request, 'team_list.html', {'teams': teams})
 
 # 팀 상세 조회
 def team_detail(request, id):
@@ -117,9 +112,9 @@ def likes(request, team_id):
         return redirect('teams:team_detail',  id=team.id)
     return redirect('teams:team_detail',  id=team.id)
 
-#--------------------------------------------------------------------------------
 
-# 할 일
+
+''' 할 일 '''
 
 # 할 일 생성하기
 def task_create(request, id):
@@ -179,25 +174,4 @@ def task_delete(request, id):
 
 
 
-'''
-def task_detail(request, id):
-    task_detail = get_object_or_404(Team, pk=id)
-    tasks = task_detail.task_set.all().order_by('-deadline')  # 팀에 할당된 모든 할일 조회
-    paginator = Paginator(tasks, 5)
-    pagnum = request.GET.get('page')
-    tasks = paginator.get_page(pagnum)
-    return render(request, 'task_detail.html', {'tasks': tasks})
-'''
-
-# 유저 찾기
-# def user_search(request):
-#     form = UserSearchForm(request.GET)
-#     users = []
-
-#     if form.is_valid():
-#         search_query = form.cleaned_data.get('search_query')
-#         if search_query:
-#             users = User.objects.filter(username__icontains=search_query)
-
-#     return render(request, 'user_search.html', {'form': form, 'users': users})
 

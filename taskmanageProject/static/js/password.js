@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 비밀번호 보이기 가리기
-function togglePassword(inputId, button) {
-    const input = document.getElementById(inputId);
-    const icon = button.querySelector('img');
-    const staticUrl = "{% static 'assets/img/' %}";
+// function togglePassword(inputId, button) {
+//     const input = document.getElementById(inputId);
+//     const icon = button.querySelector('img');
+//     const staticUrl = "{% static 'assets/img/' %}";
     
-    if (input.type === "password") {
-        input.type = "text";
-        icon.src = staticUrl + "password.svg";
-        icon.alt = "hide";
-    } else {
-        input.type = "password";
-        icon.src = staticUrl + "passwordshow.svg";
-        icon.alt = "show";
-    }
-}
+//     if (input.type === "password") {
+//         input.type = "text";
+//         icon.src = staticUrl + "password.svg";
+//         icon.alt = "hide";
+//     } else {
+//         input.type = "password";
+//         icon.src = staticUrl + "password.svg";
+//         icon.alt = "show";
+//     }
+// }

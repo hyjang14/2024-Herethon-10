@@ -25,7 +25,7 @@ urlpatterns = [
     path('account/',include('accounts.urls', namespace='accounts')),
     path('team/',include('teams.urls', namespace='teams')),
 
-    # 비밀번호 초기화(메일 전송)
+    # 비밀번호 재설정(메일 전송)
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='../../accounts/templates/registration/find_password.html',  # 커스터마이즈한 템플릿 경로 지정
         email_template_name='../../accounts/templates/registration/password_reset_email.html',  # 이메일 템플릿 경로 지정

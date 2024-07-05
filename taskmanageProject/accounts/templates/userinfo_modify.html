@@ -1,5 +1,7 @@
 {% load static %}
 
+<!-- 회원정보 수정 페이지  -->
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -10,12 +12,45 @@
     <!-- 기본 css  -->
     <link rel="stylesheet" href="{% static 'assets/css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/sytle.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/sytle.css' %}?after">
 
     <!-- main 페이지 css --> 
-    <link rel="stylesheet" href="{% static 'assets/css/section/userinfo_modify.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/section/userinfo_modify.css' %}?after">
 
     <title>기로프-유저 정보 수정</title>
+    <style>
+         /* 파일 입력 필드 숨기기 */
+
+        .profilebtn-wrapper {
+            position: relative;
+        }
+        .hidden-file-input {
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .clearable-file-input .current-file {
+            display: none;
+        }
+
+        .profilebtn-wrapper a {
+            display: none;
+        }
+
+        .profilebtn-wrapper #text {
+            display: none;
+        }
+
+        .profilebtn-wrapper {
+            height: 55px;
+            overflow: hidden;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -34,15 +69,33 @@
         <div class="main">
             <form action="" method="POST" enctype="multipart/form-data" name="modify">
                 {% csrf_token %}
+                
+               
                 <div class="profile">
-                    <img src="{{ user.profile.url }}" alt="profile" class="profileimg" id="profileImg">
-                    <button type="button" class="profilebtn-wrapper">
-                        <input class="profilebtn" type="file" id="profileInput">
-                        <label for="profileInput"></label>
-                    </button>
+                    <label for="team_img">팀 이미지</label>
+                    <div class="profilebtn-wrapper">
+                        <label for="id_photo" class="profilebtn-label">
+                            사진 추가
+                        </label>
+                        <!-- Django 폼 필드 (파일 입력 필드를 숨김) -->
+                        {{ form.profile }}
+                    </div>
                 </div>
-
-                <!-- 회원가입 조건 미충족 시, 에러 메시지 출력 -->
+                <!-- <div class="profile">
+                    <label for="team_img">팀 이미지</label>
+                    <div>
+                        <button type="button" class="profilebtn-wrapper">
+                            <input class="profilebtn" type="file" id="profileInput">
+                            <label for="profileInput">사진 추가</label>
+                        </button>
+                    </div>
+                </div> -->
+                
+                    
+              
+                
+                
+                <!--  회원가입 조건 미충족 시, 에러 메시지 출력 --> 
                 {% if error_message %}
                     <p style="color: palevioletred;">{{ error_message }}</p> 
                 {% endif %}
@@ -67,12 +120,24 @@
                     <label>생년월일</label>
                     {{ form.birthdate }}
                 </div>
-                <button type="submit">임시 버튼</button>
+                <button type="submit">수정 완료</button>
             </form>
         </div>
     </div>
     
     <script src="{% static 'js/userinfo_modify.js' %}"></script>
+    <script>
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function() {
+                var dataURL = reader.result;
+                var output = document.getElementById('profileImg');
+                output.src = dataURL;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
 </body>
 
 </html>

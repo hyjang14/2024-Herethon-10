@@ -1,6 +1,7 @@
 {% load static %}
 
 <!-- 회원가입 페이지 -->
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -15,10 +16,28 @@
 
     <!-- main 페이지 css -->
     <link rel="stylesheet" href="{% static 'assets/css/section/login.css' %}?after">
-    <link rel="stylesheet" href="{% static 'assets/css/section/join.css' %}?after">
+    <link rel="stylesheet" href="{% static 'assets/css/section/join.css' %}">
     <title>기로프</title>
 
     <title>기로프-회원가입</title>
+    <style>
+        /* 파일 입력 필드 숨기기 */
+
+        .profilebtn-wrapper {
+            position: relative;
+        }
+
+        .hidden-file-input {
+            /* opacity: 0; */
+            /* display: none; */
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            cursor: pointer;
+        }
+    </style>
     <script>
         var staticUrl = "{% static 'assets/img/' %}";
         const staticPasswordShowImg = "{% static 'assets/img/passwordshow.svg' %}";
@@ -27,33 +46,33 @@
 
 <body>
     <div class="join_wrap container">
-        <form action="" method="POST" enctype="multipart/form-data" name="login">
-            <div class="header">
-                <div class="top">
-                    <button class="backbtn" type="button">
-                        <a href="{% url 'accounts:login' %}">
-                            <img src="{% static 'assets/img/back.svg' %}" alt="backbtn">
-                        </a>
-                    </button>
-                    <h1>회원가입</h1>
-                </div>
-                <!-- 수정 필요!! -->
-                <div class="profile">
-                    <img src="{% static 'assets/img/profile.png' %}" alt="profile" class="profileimg">
-                   
-                    <!-- <label for="profile-input"> -->
-                    <img src="{% static 'assets/img/profilebtn.svg' %}" alt="profilebtn" class="profilebtn">
-                    <!-- </label> -->
-                </div>
+        <div class="header">
+            <div class="top">
+                <button class="backbtn" type="button">
+                    <a href="{% url 'accounts:login' %}">
+                        <img src="{% static 'assets/img/back.svg' %}" alt="backbtn">
+                    </a>
+                </button>
+                <h1>회원가입</h1>
             </div>
-            
+        </div>
+
+        <form class="join-form" action="" method="POST" enctype="multipart/form-data" name="join">
             {% csrf_token %}
+            <div class="userPic">
+                <div class="profilebtn-wrapper">
+                    <label for="team_img">
+                        프로필 사진 등록{{ form.profile }}
+                </div>
+                </label>
+            </div>
+
 
             <!-- 회원가입 조건 미충족 시, 에러 메시지 출력 -->
             {% if error_message %}
-                <p style="color: palevioletred;">{{ error_message }}</p> 
+            <p style="color: palevioletred; text-align: center;">{{ error_message }}</p>
             {% endif %}
-         
+
             <div class="userId">
                 <label>아이디 *</label>
                 {{ form.username }}
@@ -70,9 +89,9 @@
                     <div class="box">
                         <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
                         <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
-                        <button type="button" class="clear" onclick="clearInput('userPassword')">
+                        <button type="button" class="clear" onclick="clearInput('{{ form.password.id_for_label }}')">
                             <img src="{% static 'assets/img/deletebtn.svg' %}" name="delete" alt="delete">
-                        </button> 
+                        </button>
                         <button type="button" class="toggle-password" onclick="togglePassword('id_password', this)">
                             <img src="{% static 'assets/img/passwordshow.svg' %}" name="password" alt="show">
                         </button>
@@ -83,7 +102,8 @@
             <div class="userPassre">
                 <label for="userPasswordre">비밀번호 확인 *</label>
                 <div class="input-container">
-                    <input type="password" id="userPasswordre" name="userPasswordre" placeholder="비밀번호를 한 번 더 입력해주세요.">
+                    <input class="passwordreinput" type="password" id="userPasswordre" name="userPasswordre"
+                        placeholder="비밀번호를 한 번 더 입력해주세요.">
                     <div class="box">
                         <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
                         <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
@@ -91,7 +111,7 @@
                             <img src="{% static 'assets/img/deletebtn.svg' %}" name="delete" alt="delete">
                         </button>
                         <button type="button" class="toggle-password" onclick="togglePassword('userPasswordre', this)">
-                            <img src="{% static 'assets/img/passwordshow.svg' %}" name="password" alt="show">
+                            <img src="{% static 'assets/img/password.svg' %}" name="password" alt="show">
                         </button>
                     </div>
                 </div>
@@ -113,7 +133,7 @@
                 <label for="userPhone">전화번호 *</label>
                 <div class="input-container">
                     {{ form.phone }}
-                    <div class="box"> 
+                    <div class="box">
                         <img src="{% static 'assets/img/check.svg' %}" class="checkmark" alt="check">
                         <img src="{% static 'assets/img/wrong.svg' %}" class="wrongmark" alt="wrong">
                     </div>
@@ -140,23 +160,23 @@
                 <div class="checkbox-item check_alone">
                     <input type="checkbox" id="termsAgree" name="termsAgree" class="join_check">
                     <label for="termsAgree">이용약관 필수 동의</label>
-                    <a href="#">자세히보기</a>
+                    <a href="{% url 'accounts:agree1' %}">자세히보기</a>
                 </div>
                 <div class="checkbox-item check_alone">
                     <input type="checkbox" id="privacyAgree" class="join_check">
                     <label for="privacyAgree">개인정보 처리방침 필수 동의</label>
-                    <a href="#">자세히보기</a>
+                    <a href="{% url 'accounts:agree2' %}">자세히보기</a>
                 </div>
                 <div class="checkbox-item check_alone">
                     <input type="checkbox" id="marketingAgree" name="marketingAgree" class="join_check">
                     <label for="marketingAgree">마케팅 정보 수신 선택 동의</label>
-                    <a href="#">자세히보기</a>
+                    <a href="{% url 'accounts:agree3' %}">자세히보기</a>
                 </div>
             </div>
-            <button class="joinbtn joinbtn-disabled" type="submit">다음</button>
+            <button class="joinbtn joinbtn-disabled submitbtn" type="submit">다음</button>
 
-             <!-- 이미지 popup -->
-            <div id="popup" class="popup">
+            <!-- 이미지 popup -->
+            <!-- <div id="popup" class="popup">
                 <div class="popup-content">
                     <div class="popup-item">사진 촬영</div>
                     <div class="popup-line"></div>
@@ -164,15 +184,105 @@
                     <div class="popup-line"></div>
                     <div class="popup-item" id="cancelBtn">취소</div>
                 </div>
-            </div>
+            </div> -->
         </form>
     </div>
 
 
     <script src="{% static 'js/join.js' %}"></script>
-    <script src="{% static 'js/popup.js' %}" ></script>
-    <script src="{% static 'js/password.js' %}"></script>
-    <script src="{% static 'js/imgupload.js' %}"></script> 
+    <script src="{% static 'js/popup.js' %}"></script>
+    <script src="{% static 'js/imgupload.js' %}"></script>
+
+    <script>
+        // 버튼 색 바꾸기
+        const userid = document.querySelector('.userid-input');
+        const email = document.querySelector('.email-input');
+        const password = document.querySelector('.password-input');
+        const passwordre = document.querySelector('.passwordreinput');
+        const username = document.querySelector('.name-input');
+        const phone = document.querySelector('.phone-input');
+        const birthdate = document.querySelector('.birthdate-input');
+        const submitbtn = document.querySelector('.submitbtn');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const userid = document.querySelector('.userid-input');
+            const email = document.querySelector('.email-input');
+            const password = document.querySelector('.password-input');
+            const passwordre = document.querySelector('.passwordreinput');
+            const username = document.querySelector('.name-input');
+            const phone = document.querySelector('.phone-input');
+            const birthdate = document.querySelector('.birthdate-input');
+            const submitbtn = document.querySelector('.submitbtn');
+
+            // 입력 필드의 값이 변경될 때마다 호출할 함수
+            function checkFields() {
+                // 각 입력 필드의 값이 비어 있는지 확인
+                const useridFilled = userid.value.trim() !== '';
+                const emailFilled = email.value.trim() !== '';
+                const passwordFilled = password.value.trim() !== '';
+                const passwordreFilled = passwordre.value.trim() !== '';
+                const usernameFilled = username.value.trim() !== '';
+                const phoneFilled = phone.value.trim() !== '';
+                const birthdateFilled = birthdate.value.trim() !== '';
+
+                // 모든 필드가 채워져 있으면 버튼에 'full' 클래스 추가
+                if (useridFilled && emailFilled && passwordFilled && passwordreFilled &&
+                    usernameFilled && phoneFilled && birthdateFilled) {
+                    submitbtn.classList.add('full');
+                } else {
+                    submitbtn.classList.remove('full');
+                }
+            }
+
+            // 각 입력 필드의 값이 변경될 때마다 checkFields 함수 호출
+            userid.addEventListener('input', checkFields);
+            email.addEventListener('input', checkFields);
+            password.addEventListener('input', checkFields);
+            passwordre.addEventListener('input', checkFields);
+            username.addEventListener('input', checkFields);
+            phone.addEventListener('input', checkFields);
+            birthdate.addEventListener('input', checkFields);
+
+            // 페이지 로드시 초기 상태 체크
+            checkFields();
+        });
+
+        // 비밀번호 보이기 가리기
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('img');
+            const staticUrl = "{% static 'assets/img/' %}";
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.src = staticUrl + "passwordshow.svg";
+                icon.alt = "hide";
+            } else {
+                input.type = "password";
+                icon.src = staticUrl + "password.svg";
+                icon.alt = "show";
+            }
+        }
+
+        // 비밀번호확인 보이기 가리기
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('img');
+            const staticUrl = "{% static 'assets/img/' %}";
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.src = staticUrl + "passwordshow.svg";
+                icon.alt = "hide";
+            } else {
+                input.type = "password";
+                icon.src = staticUrl + "password.svg";
+                icon.alt = "show";
+            }
+        }
+
+        
+    </script>
 </body>
 
 </html>

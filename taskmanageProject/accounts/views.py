@@ -4,14 +4,35 @@ from .models import User
 from .forms import CustomUserForm, CustomUserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-# from django.contrib.auth.forms import PasswordChangeForm
-# from django.contrib.auth import update_session_auth_hash
 from teams.models import Team
 from django.views.decorators.csrf import csrf_exempt
 
 # 첫 화면
 def base(request):
     return render(request, 'account_base.html')
+
+def agree1(request):
+    return render(request, 'agree1.html')
+
+def agree2(request):
+    return render(request, 'agree2.html')
+
+def agree3(request):
+    return render(request, 'agree3.html')
+
+def joinclear(request):
+    return render(request, 'joinclear.html')
+
+def profile(request):
+    if request.method == 'POST':
+        form = CustomUserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = CustomUserForm(instance=request.user)
+
+    return render(request, 'users/profile.html', {'form': form})
 
 # 회원가입
 @csrf_exempt
@@ -58,7 +79,7 @@ def signup(request,  edit=False):
                 
                 # 회원가입 성공
                 form.save()
-                return redirect('teams:team_list') 
+                return redirect('accounts:joinclear') 
             
             # 6. 비밀번호 일치 안할 경우
             else: 
@@ -166,7 +187,7 @@ def my_page(request, id):
     return render(request, 'mypage.html', {'user': user, 'teams':teams, 'id':id})
 
 
-#-------------------------------------------------------------------------------------------------
+'''-------------------------------------------------------------------------------------------------'''
 
     
 # 메일 보내기(참고용)

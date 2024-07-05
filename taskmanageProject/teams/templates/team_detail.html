@@ -50,7 +50,12 @@
         <div class="team_member">
             <div class="team_header">
                 <h3>팀원</h3>
-                <button class="modify" onclick="findFriend();"><img src="{% static 'assets/img/modify.svg' %}" alt="modify"></button>
+                {% if request.user in team.members.all %}
+                <a href="{% url 'teams:team_update' team.id %}" class="modify"><img src="{% static 'assets/img/arrow_right.svg' %}" alt="modify"></a>
+                {% else %}
+                {% endif %}
+                
+                <!-- <button class="modify" onclick="findFriend();"><img src="{% static 'assets/img/modify.svg' %}" alt="modify"></button> -->
             </div>
             <div class="team_list">
                 <!-- 팀원 목록 -->
