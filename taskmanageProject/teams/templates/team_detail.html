@@ -53,7 +53,7 @@
                 {% if request.user in team.members.all %}
                 <a href="{% url 'teams:team_update' team.id %}" class="modify"><img src="{% static 'assets/img/arrow_right.svg' %}" alt="modify"></a>
                 {% else %}
-                {% endif %}
+            {% endif %}
                 
                 <!-- <button class="modify" onclick="findFriend();"><img src="{% static 'assets/img/modify.svg' %}" alt="modify"></button> -->
             </div>
@@ -72,34 +72,39 @@
         <div class="todo">
             <div class="todo_header">
                 <h3>할일</h3>
-                <button class="modify" onclick="modifyTodo()"><img src="{% static 'assets/img/modify.svg' %}" alt="modify"></button>
+                {% if request.user in team.members.all %}
+                <a href="{% url 'teams:task_create' team.id %}"><img class="arrow_right" src="{% static 'assets/img/arrow_right.svg' %}" alt="down_pop"></a>
+                <!-- <button class="modify" onclick="modifyTodo()"><img src="{% static 'assets/img/modify.svg' %}" alt="modify"></button> -->
+                {% endif %}
             </div>
             <div class="todo_list" style="text-align: center;">
                 {% for task in tasks %}
-                    {{ task.title }}
-                    담당자:
-                    {% for user in task.manager.all %}
-                        {{ user.username }},
-                    {% endfor %}
+                    <div>
+                        <p>{{ task.title }}</p>
+                        {% if request.user in team.members.all %}
+                        <div class="box">
+                            <a href="{% url 'teams:task_update' task.id %}"><button type="button"><img class="modify" src="{% static 'assets/img/modify.svg' %}" alt="modify"></button></a>
+                            <a href="{% url 'teams:task_delete' task.id %}"><button type="button"><img class="delete" src="{% static 'assets/img/x_bold.svg' %}" alt="x_bold"></button></a>
+                        </div>
+                        {% endif %}
+                    </div>
 
-                    {% if request.user in team.members.all %}
-                    <a href="{% url 'teams:task_update' task.id %}">할일 수정하기</a>
-                    <a href="{% url 'teams:task_delete' task.id %}">할일 삭제하기</a>
-                    {% endif %}
                     {% empty %}
-                    <div class="nothing">
-                        <img src="{% static 'assets/img/no_todo.png' %}" alt="bin">
-                        <p>아직 작성된 할 일이 없어요</p>
+                    <div class="todo_no">
+                        <div class="nothing">
+                            <img src="{% static 'assets/img/no_todo.png' %}" alt="bin">
+                            <p>아직 작성된 할 일이 없어요</p>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
-            <div class="graph">
-                <canvas id="doughnut-chart"></canvas>
-                <p>00%</p>
-            </div>
+        </div>
+        <div class="graph">
+            <canvas id="doughnut-chart-{{ team.id }}" width="100" height="100"></canvas>
+            <p><em class="percent_p"></em>%</p>
         </div>
 
-        <!-- 팀원 수정 -->
+        <!-- 팀원 수정
         <div class="add_team none">
             <div class="search">
                 <input type="text" placeholder="아이디로 검색하기">
@@ -127,10 +132,10 @@
                     <button><img src="../static/assets/img/deletebtn_white.svg" alt="delete"></button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- 할일 추가 및 수정 -->
-        <div class="todo_modify none">
+        <!-- <div class="todo_modify none">
             <div class="search">
                 <input type="text" placeholder="할 일을 입력해주세요.">
                 <button><img src="../static/assets/img/plus_samll.svg" alt="search"></button>
@@ -145,13 +150,26 @@
                     <button><img src="../static/assets/img/deletebtn_white.svg" alt="delete">
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
+    <!-- team_data JSON 데이터 전달 -->
+    <script id="teamdata" type="application/json">{{ teamdata|safe }}</script>
+    <script id="team" type="application/json">{{ team.id }}</script>
+    <script id="team_member_count" type="application/json">{{ team_member_count }}</script>
+    <script id="team_task_count" type="application/json">{{ team_task_count }}</script>
+    <script id="team_completed_tasks" type="application/json">{{ team_completed_tasks }}</script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
-   
+
     <script src="{% static 'js/team.js' %}"></script>
-    <script src=" {% static 'js/chart.js' %}"></script>
+    <script src=" {% static 'js/detail_chart.js' %}?after"></script>
+    <script>
+        const Percent = document.querySelector('.percent_p');
+
+        //Percent.innerHTML = {{ team_completed_tasks }}*100/{{team_task_count }}
+        Percent.innerHTML = {{ team_completed_tasks }}*100/{{ team_task_count }}
+    </script>
 </body>
 
 </html>

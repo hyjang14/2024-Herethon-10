@@ -62,9 +62,6 @@ class TasksModelForm(forms.ModelForm):
         if team:
             self.fields['manager'].queryset = team.members.all()
 
-    deadline = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'})
-    )
     def clean(self):
         cleaned_data = super().clean()
         manager_ids = self.cleaned_data.get('manager')
@@ -74,7 +71,7 @@ class TasksModelForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['title', 'manager', 'deadline', 'finished']
+        fields = ['title', 'manager', 'finished']
         widgets = {
             'manager': forms.CheckboxSelectMultiple()
         }

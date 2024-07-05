@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +19,6 @@
     <link rel="stylesheet" href="{% static 'assets/css/section/main.css' %}?after">
     <title>기로프</title>
 </head>
-
 <body>
     <div class="main_wrap container">
         <header id="header">
@@ -68,12 +66,11 @@
                         </div>
                         <div class="middle">
                             <div class="graph">
-                                <canvas id="doughnut-chart" width="100" height="100"></canvas>
+                                <canvas id="doughnut-chart-{{ team.id }}" width="100" height="100"></canvas>
                             </div>
                         </div>
                         <div class="bottom">
-                            <div class="day">D-17</div>
-                            <div class="parcent">60%</div>
+                            <div class="day">{{ team.created_at|date:"y.m.d" }}</div>
                         </div>                    
                     </div>
                 </a>
@@ -98,25 +95,27 @@
                         </div>
                         <div class="middle">
                             <div class="graph">
-                                <canvas id="doughnut-chart" width="100" height="100"></canvas>
+                              
+                                <canvas id="doughnut-chart-{{ team.id }}" width="100" height="100"></canvas>
                             </div>
                         </div>
                         <div class="bottom">
-                            <div class="day">D-17</div>
-                            <div class="parcent">60%</div>
+                            <div class="day">{{ team.created_at|date:"y.m.d" }}</div>
                         </div>                    
                     </div>
                 </a>
             {% endfor %}
         </main>
-        <div id="index-create-container"></div>
+
+        <!-- JSON 데이터 전달 -->
+        <script id="liked-team-data" type="application/json">{{ liked_team_data|safe }}</script>
+        <script id="other-team-data" type="application/json">{{ other_team_data|safe }}</script>
+        
     </div>
 
     <!-- script -->
-    <!-- gsap -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
-    <script src="{% static 'js/chart.js' %}"></script>
+    <script src="{% static 'js/chart.js' %}?after"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

@@ -4,8 +4,9 @@ from .models import User
 from .forms import CustomUserForm, CustomUserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from teams.models import Team
+from teams.models import Team, Task
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # 첫 화면
 def base(request):
@@ -179,12 +180,27 @@ def logout(request):
     return redirect('teams:team_list') 
 
 
+def get_team_task_data3(team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    task_data = []
+    for member in team.members.all():
+        completed_tasks = Task.objects.filter(manager=member, finished=True, team=team).count()
+        task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
+    return task_data
+
 # 마이페이지
 def my_page(request, id):
     user = get_object_or_404(User, pk=id)
-    teams = Team.objects.filter(creater=user)
     teams = user.teams.all().order_by('-created_at')
-    return render(request, 'mypage.html', {'user': user, 'teams':teams, 'id':id})
+    team_data = {team.id: get_team_task_data3(team.id) for team in teams}
+
+    context = {
+        'user': user,
+        'teams': teams,
+        'team_data': json.dumps(team_data),
+    }
+
+    return render(request, 'mypage.html', context)
 
 
 '''-------------------------------------------------------------------------------------------------'''
