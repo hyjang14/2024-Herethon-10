@@ -1,6 +1,5 @@
 {% load static %}
 
-<!-- 마이 페이지  -->
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -16,10 +15,8 @@
     <!-- main 페이지 css -->
     <link rel="stylesheet" href="{% static 'assets/css/section/mypage.css' %}">
   
-
     <!-- 차트 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
 
     <title>기로프-마이페이지</title>
 </head>
@@ -50,7 +47,10 @@
         </div>
         <div class="modify_btn">
             <a href="{% url 'accounts:user_update' user.id %}">
-                <button type="button">회원정보 수정</button>
+                <button class="userinfo" type="button">회원정보 수정</button>
+            </a>
+            <a href="{% url 'accounts:logout' %}">
+                <button type="button">로그아웃</button>
             </a>
         </div>
         <div class="mypage_list_wrap">
@@ -62,27 +62,24 @@
                     <div class="list">
                         <h4>{{ team.name }}</h4>
                         <div class="team_info">
-                            <!-- <div class="member">
-                                {% for member in team.members.all %}
-                                    {{ member.username }}
-                                {% endfor %}
-                            </div> -->
                             <div class="graph">
-                                <canvas id="doughnut-chart"></canvas>
+                                <canvas id="doughnut-chart-{{ team.id }}" width="100" height="100"></canvas>
                             </div>
                             <div class="info">
                                 <p class="day">{{ team.created_at|date:"y.m.d" }}</p>
-                                <p class="percent">50%</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                </a>
+            </a>
             {% endfor %}
         </div>
-    </div>
-    
-    <script src="{% static 'js/chart.js' %}"></script>
-</body>
 
+        <script id="team-data" type="application/json">{{ team_data|safe }}</script>
+    </div>
+
+    <script src="{% static 'js/team.js' %}"></script>
+    <script src="{% static 'js/chart_mypage.js' %}"></script>
+
+</body>
 </html>

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/sytle.css' %}">
 
     <!-- main 페이지 css -->
-    <link rel="stylesheet" href="{% static 'assets/css/section/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/section/main.css' %}?after">
     <title>기로프</title>
 </head>
 <body>
@@ -24,7 +24,7 @@
             {% if not user.is_authenticated %}
                 <a href="{% url 'accounts:login' %}">로그인</a>
             {% else %}
-                <a href="{% url 'accounts:logout' %}">로그아웃</a>
+                <!-- <a href="{% url 'accounts:logout' %}">로그아웃</a> -->
                 <div>
                     <button class="create" onclick="showPop()">
                         <img src="{% static 'assets/img/plus.svg' %}" alt="">
@@ -44,15 +44,16 @@
                 <a href="{% url 'teams:team_detail' team.id %}">
                     <div class="box">
                         <div class="top">
-                            <h2>{{ team.name }}</h2>
+                            <div class="top_header">
+                                <h2>{{team.name}}</h2>
+                                <img src="{% static 'assets/img/pin_bold.svg' %}" alt="">
+                            </div>
                             <div class="profile_box">
-                                <div class="profile profile03">
                                 {% if team.photo %}
-                                <img src="{{ team.photo.url }}" alt="Team Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="{{ team.photo.url }}" alt="profile" class="profile">
                                 {% else %}
-                                <img src="{% static 'assets/img/default_team.png' %}" alt="Team Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="{% static 'assets/img/default_team.png' %}" alt="profile" class="profile">
                                 {% endif %}
-                                </div>
                             </div>
                         </div>
                         <div class="middle">
@@ -61,9 +62,8 @@
                             </div>
                         </div>
                         <div class="bottom">
-                            <div class="day">D-17</div>
-                            <div class="parcent">60%</div>
-                        </div>
+                            <div class="day">{{ team.created_at|date:"y.m.d" }}</div>
+                        </div>                    
                     </div>
                 </a>
             {% endfor %}
@@ -73,15 +73,16 @@
                 <a href="{% url 'teams:team_detail' team.id %}">
                     <div class="box">
                         <div class="top">
-                            <h2>{{ team.name }}</h2>
+                            <div class="top_header">
+                                <h2>{{team.name}}</h2>
+                                <img class="none" src="{% static 'assets/img/pin_bold.svg' %}" alt="">
+                            </div>
                             <div class="profile_box">
-                                <div class="profile profile03">
                                 {% if team.photo %}
-                                <img src="{{ team.photo.url }}" alt="Team Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="{{ team.photo.url }}" alt="profile" class="profile">
                                 {% else %}
-                                <img src="{% static 'assets/img/default_team.png' %}" alt="Team Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                                    <img src="{% static 'assets/img/default_team.png' %}" alt="profile" class="profile">
                                 {% endif %}
-                                </div>
                             </div>
                         </div>
                         <div class="middle">
@@ -90,9 +91,8 @@
                             </div>
                         </div>
                         <div class="bottom">
-                            <div class="day">D-17</div>
-                            <div class="parcent">60%</div>
-                        </div>
+                            <div class="day">{{ team.created_at|date:"y.m.d" }}</div>
+                        </div>                    
                     </div>
                 </a>
             {% endfor %}
@@ -102,6 +102,7 @@
         <!-- JSON 데이터 전달 -->
         <script id="liked-team-data" type="application/json">{{ liked_team_data|safe }}</script>
         <script id="other-team-data" type="application/json">{{ other_team_data|safe }}</script>
+        
     </div>
 
     <!-- script -->

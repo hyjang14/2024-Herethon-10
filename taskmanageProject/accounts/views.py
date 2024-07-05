@@ -6,8 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 # from django.contrib.auth.forms import PasswordChangeForm
 # from django.contrib.auth import update_session_auth_hash
-from teams.models import Team
+from teams.models import Team, Task
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # 첫 화면
 def base(request):
@@ -19,7 +20,7 @@ def signup(request,  edit=False):
     if request.method == 'POST' or request.method == 'FILES':
         form = CustomUserForm(request.POST, request.FILES)
         if form.is_valid():
-            if request.POST['password'] == request.POST['repeat']:
+            if request.POST['password'] == request.POST['userPasswordre']:
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
                 name = form.cleaned_data['name']
@@ -66,7 +67,7 @@ def signup(request,  edit=False):
                 return render(request, 'join.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
         # 7. 아이디가 이미 존재할 경우
         else:
-            error_message = "이미 존재하는 아이디입니다." 
+            error_message = "이미 존재하는 아이디이거나 입력 형태가 올바르지 않습니다." 
             return render(request, 'join.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
     else:
         form = CustomUserForm()
@@ -91,26 +92,26 @@ def user_update(request, id, edit=True):
         # 1. 아이디 길이 검사
             if len(username) < 6 or len(username) > 25:
                 error_message = "아이디를 6자 이상 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
         # 2. 이름 길이 검사
             if len(name) < 2 or len(name) > 15:
                 error_message = "이름을 2자 이상 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
          # 3. 전화번호 중복 & 길이 검사
             if User.objects.filter(phone=phone).exclude(pk=user.pk).exists():
                 error_message = "이미 가입되어있는 전화번호입니다." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
             if len(phone) != 11:
                 error_message = "'-'를 제외한 전화번호를 입력해주세요." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
             
         # 4. 이메일 중복 검사
             if User.objects.filter(email=email).exclude(pk=user.pk).exists():
                 error_message = "이미 존재하는 이메일입니다." 
-                return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+                return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
 
             user.username = username
             user.name = name
@@ -125,11 +126,11 @@ def user_update(request, id, edit=True):
         #  5. 아이디가 이미 존재할 경우
         else:
             error_message = "이미 존재하는 아이디입니다." 
-            return render(request, 'signup.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
+            return render(request, 'userinfo_modify.html', {'error_message': error_message, 'form': form, 'is_edit': edit})
     else:
         form = CustomUserUpdateForm(instance=user)
 
-    return render(request, 'signup.html', {'form':form, 'id':id, 'is_edit': edit})
+    return render(request, 'userinfo_modify.html', {'form':form, 'id':id, 'is_edit': edit})
 
 
 
@@ -159,11 +160,26 @@ def logout(request):
 
 
 # 마이페이지
+def get_team_task_data3(team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    task_data = []
+    for member in team.members.all():
+        completed_tasks = Task.objects.filter(manager=member, finished=True, team=team).count()
+        task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
+    return task_data
+
 def my_page(request, id):
     user = get_object_or_404(User, pk=id)
-    teams = Team.objects.filter(creater=user)
     teams = user.teams.all().order_by('-created_at')
-    return render(request, 'mypage.html', {'user': user, 'teams':teams, 'id':id})
+    team_data = {team.id: get_team_task_data3(team.id) for team in teams}
+
+    context = {
+        'user': user,
+        'teams': teams,
+        'team_data': json.dumps(team_data),
+    }
+
+    return render(request, 'mypage.html', context)
 
 
 #-------------------------------------------------------------------------------------------------

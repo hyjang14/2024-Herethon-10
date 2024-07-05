@@ -68,6 +68,11 @@
     border-radius: 20px;
 }
 
+.modify_btn button.userinfo {
+    background-color: var(--main);
+    margin-bottom: 10px;
+}
+
 /* mypage_list_wrap */
 
 .mypage_list_wrap h3 {

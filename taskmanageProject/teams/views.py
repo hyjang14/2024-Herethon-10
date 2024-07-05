@@ -77,12 +77,33 @@ def team_delete(request, team_id):
     return redirect('accounts:base') 
 
 # 팀 할일 조회
+'''
 def get_team_task_data(team):
     task_data = []
     for member in team.members.all():
         completed_tasks = Task.objects.filter(manager=member, finished=True).count()
         task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
     return task_data
+'''
+def get_team_task_data(team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    task_data = []
+    for member in team.members.all():
+        completed_tasks = Task.objects.filter(manager=member, finished=True, team=team).count()
+        task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
+    return task_data
+
+def get_team_task_data2(team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    task_data = []
+    for member in team.members.all():
+        completed_tasks = Task.objects.filter(manager=member, finished=True, team=team).count()
+        task_data.append({'username': member.username, 'completed_tasks': completed_tasks})
+    team_member_count = team.members.count()
+    team_task_count = Task.objects.filter(team=team).count()
+    team_completed_tasks = Task.objects.filter(finished=True, team=team).count()
+    return {'task_data': task_data, 'team_member_count': team_member_count, 
+            'team_task_count': team_task_count, 'team_completed_tasks': team_completed_tasks}
 
 # 팀 전체 조회
 def team_list(request):
@@ -93,8 +114,8 @@ def team_list(request):
         liked_teams = Team.objects.none().order_by('-created_at')
         other_teams = Team.objects.all().order_by('-created_at')
 
-    liked_team_data = {team.id: get_team_task_data(team) for team in liked_teams}
-    other_team_data = {team.id: get_team_task_data(team) for team in other_teams}
+    liked_team_data = {team.id: get_team_task_data(team.id) for team in liked_teams}
+    other_team_data = {team.id: get_team_task_data(team.id) for team in other_teams}
 
     context = {
         'liked_teams': liked_teams,
@@ -113,17 +134,28 @@ def team_list(request):
 # 팀 상세 조회
 def team_detail(request, id):
     team = get_object_or_404(Team, pk=id)
-    tasks = team.task_set.all() # 팀에 할당된 모든 할일 조회
-
-    team_data = {team.id: get_team_task_data(team) in team}
-    context = {
-        'team_data': json.dumps(team_data)
-    }
-
+    tasks = team.task_set.all()
     paginator = Paginator(tasks, 5)
     pagnum = request.GET.get('page')
     tasks = paginator.get_page(pagnum)
-    return render(request, 'team_detail.html', {'team': team, 'tasks': tasks}, context)
+    
+    team_data = get_team_task_data2(id)
+    task_data = team_data['task_data']
+    team_member_count = team_data['team_member_count']
+    team_task_count = team_data['team_task_count']
+    team_completed_tasks = team_data['team_completed_tasks']
+    teamdata_json = json.dumps(task_data)
+
+    return render(request, 'team_detail.html', {
+        'team': team,
+        'tasks': tasks,
+        'task_data': task_data,
+        'team_member_count': team_member_count,
+        'team_task_count': team_task_count,
+        'team_completed_tasks': team_completed_tasks,
+        'teamdata': teamdata_json
+    })
+
 
 
 # 팀 좋아요
@@ -140,8 +172,6 @@ def likes(request, team_id):
 
 #--------------------------------------------------------------------------------
 
-# 할 일
-
 # 할 일 생성하기
 def task_create(request, id):
     team = get_object_or_404(Team, pk=id)
@@ -149,47 +179,43 @@ def task_create(request, id):
         form = TasksModelForm(request.POST, team=team)
         manager_ids = request.POST.getlist('manager')
         if form.is_valid():
-            task_create = form.save()
+            task_create = form.save(commit=False)
             task_create.team = team
             task_create.save()
-            #task_create.manager = request.POST.get('manager')
             for manager_id in manager_ids:
                 user = User.objects.get(pk=manager_id)
                 task_create.manager.add(user)
-                task_create.save()
-
             task_create.save()
             return redirect('teams:team_detail', id=id)
+        else:
+            print(form.errors)  # 폼 에러 출력
     else:
         form = TasksModelForm(team=team)
-     # 팀 멤버들에 대한 할 일 목록
     tasks = Task.objects.filter(team=team)
-    return render(request, 'task_create.html', {'form': form, 'team': team, 'tasks': tasks})
+    return render(request, 'team_todo.html', {'form': form, 'team': team, 'tasks': tasks})
 
 
 # 할 일 수정하기
 def task_update(request, id):
-    task_update = get_object_or_404(Task, pk=id)
+    task_update = get_object_or_404(Task, pk=id)  # 기존 할 일 객체를 가져옴
     team = task_update.team
+
     if request.method == 'POST':
         manager_ids = request.POST.getlist('manager')
         form = TasksModelForm(request.POST, request.FILES, instance=task_update, team=team)
         if form.is_valid():
-            task_update = form.save()
+            task_update = form.save(commit=False)
             task_update.manager.clear()
             for manager_id in manager_ids:
                 user = User.objects.get(pk=manager_id)
                 task_update.manager.add(user)
-                task_update.save()
             task_update.save()
             return redirect('teams:team_detail', id=task_update.team.id)
     else:
         form = TasksModelForm(instance=task_update, team=task_update.team)
 
     manager_ids = list(task_update.manager.all().values_list('id', flat=True))
-    return render(request, 'task_create.html', {'form': form, 'task_update': task_update, 'team': team, 'manager': manager_ids})
-
-
+    return render(request, 'team_todo.html', {'form': form, 'task_update': task_update, 'team': team, 'manager': manager_ids})
 
 # 할 일 삭제하기
 def task_delete(request, id):

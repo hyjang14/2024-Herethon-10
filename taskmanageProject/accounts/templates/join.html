@@ -40,10 +40,10 @@
                 <!-- 수정 필요!! -->
                 <div class="profile">
                     <img src="{% static 'assets/img/profile.png' %}" alt="profile" class="profileimg">
-                    {{ form.profile }}
-                    <label for="profile-input">
+                   
+                    <!-- <label for="profile-input"> -->
                     <img src="{% static 'assets/img/profilebtn.svg' %}" alt="profilebtn" class="profilebtn">
-                    </label>
+                    <!-- </label> -->
                 </div>
             </div>
             
@@ -154,8 +154,21 @@
                 </div>
             </div>
             <button class="joinbtn joinbtn-disabled" type="submit">다음</button>
+
+             <!-- 이미지 popup -->
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <div class="popup-item">사진 촬영</div>
+                    <div class="popup-line"></div>
+                    <div class="popup-item" id="chooseImageBtn">사진 선택</div>
+                    <div class="popup-line"></div>
+                    <div class="popup-item" id="cancelBtn">취소</div>
+                </div>
+            </div>
         </form>
     </div>
+
+
     <script src="{% static 'js/join.js' %}"></script>
     <script src="{% static 'js/popup.js' %}" ></script>
     <script src="{% static 'js/password.js' %}"></script>
