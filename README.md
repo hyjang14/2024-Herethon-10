@@ -35,7 +35,7 @@
 📂 HERETHON-TEAM-10
 └─ myvenv
 └─ GiropeuProject
- ├─ giropeuProject
+ ├─ giropeuProject/
  │  ├─ __init__.py
  │  ├─ asgi.py
  │  ├─ settings.py
