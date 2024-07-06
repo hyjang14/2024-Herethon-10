@@ -4,7 +4,7 @@
 ## 프로젝트 소개 :  📊 기로프 📊
 
 ### 1. 서비스 소개
-<hr>
+
 <b>매일이 치열한 성장인 여대에서 조별과제, 잡무를 팀원들과 공평하게 분배하기 어렵나요?</b><br><br>
 조별과제, 모임, MT! 여대에 다니는 우리는 항상 같은 딜레마에 빠지게 됩니다. <br>지금 우리가 하고 있는 일이 공평하게 분배되고 있나… 하는 식의 고민이죠.<br>
 이런 사소한 것까지 내가 해야하나 싶고, 한 사람이 너무 많은 걸 책임지고 있는 건 아닌가 싶은 그런 때. <br>
@@ -14,8 +14,6 @@
 
 
 ### 2. 기술 스택
-<hr>
-- <b>기술 스택</b><br><br>
 
   프론트엔드: <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><br><br>
   백엔드: <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><br><br>
@@ -32,7 +30,7 @@
 
 <br>
 
-- <b>폴더 구조</b><br>
+### 3. 폴더 구조
 
 ```
 📂 HERETHON-TEAM-10
