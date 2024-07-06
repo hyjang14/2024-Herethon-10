@@ -11,7 +11,7 @@
 <기로프>를 사용하여 일을 공평하게 분배해보세요! <br><br>
 
 <img width="100%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/8d965e7b-b3cb-44a0-81b7-d9901896f22b"/> 
-<br>
+<br><br>
 
 
 ### 2. 기술 스택
@@ -20,6 +20,7 @@
   백엔드: <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><br><br>
   기획·디자인: <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 
+<br><br>
   ### 3. 팀원 소개
   
   |송은지|강주은|정새영|이정은|장하연|
