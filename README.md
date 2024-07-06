@@ -13,6 +13,8 @@
 <img width="100%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/8d965e7b-b3cb-44a0-81b7-d9901896f22b"/>
 
 
+### 2. 기술 스택
+<hr>
 - <b>기술 스택</b><br><br>
 
   프론트엔드: <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><br><br>
