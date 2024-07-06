@@ -18,8 +18,8 @@
   프론트엔드: <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><br><br>
   백엔드: <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><br><br>
   기획·디자인: <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=개
-- <b>팀원 소개</b><br>
 
+  ### 3. 팀원 소개
   
   |송은지|강주은|정새영|이정은|장하연|
   |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -62,7 +62,8 @@
 ```
 <br>
 
-- <b>개발환경에서의 실행 방법</b><br>
+### 5. 개발환경에서의 실행 방법
+
 ```
 $ source myvenv/Scripts/activate
 $ cd GiropeuProject
