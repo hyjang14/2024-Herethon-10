@@ -10,7 +10,8 @@
 이런 사소한 것까지 내가 해야하나 싶고, 한 사람이 너무 많은 걸 책임지고 있는 건 아닌가 싶은 그런 때. <br>
 <기로프>를 사용하여 일을 공평하게 분배해보세요! <br><br>
 
-<img width="100%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/8d965e7b-b3cb-44a0-81b7-d9901896f22b"/>
+<img width="100%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/8d965e7b-b3cb-44a0-81b7-d9901896f22b"/> 
+<br>
 
 
 ### 2. 기술 스택
