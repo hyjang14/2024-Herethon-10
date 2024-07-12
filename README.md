@@ -70,3 +70,6 @@ $ source myvenv/Scripts/activate
 $ cd GiropeuProject
 $ python manage.py runserver
 ```
+
+### 6. 해커톤 기사 링크
+
