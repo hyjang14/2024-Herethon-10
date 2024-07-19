@@ -14,6 +14,9 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
 
+    # 회원가입 성공
+    path('joinclear/', views.joinclear, name='joinclear'), 
+
     # 마이페이지
     path('my_page/<int:id>/', views.my_page, name='my_page'),
 ]
