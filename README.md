@@ -39,8 +39,8 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 ```
 📂 HERETHON-TEAM-10
 └─ myvenv
-└─ taskManageProject
- ├─ taskManageProject/
+└─ taskmanageProject
+ ├─ taskmanageProject/
  │  ├─ __init__.py
  │  ├─ asgi.py
  │  ├─ settings.py
@@ -54,6 +54,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
  │  ├─ tests.py
  │  ├─ urls.py
  │  ├─ views.py
+ │  ├─ templates
  ├─ teams/
  │  ├─ __init__.py
  │  ├─ admin.py
@@ -62,6 +63,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
  │  ├─ tests.py
  │  ├─ urls.py
  │  ├─ views.py
+ │  ├─ templates
  └─ manage.py
 ```
 <br>
