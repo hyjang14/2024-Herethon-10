@@ -72,6 +72,6 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 
 ```
 $ source myvenv/Scripts/activate
-$ cd GiropeuProject
+$ cd taskmanageProject
 $ python manage.py runserver
 ```
