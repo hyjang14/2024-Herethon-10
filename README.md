@@ -39,8 +39,8 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 ```
 📂 HERETHON-TEAM-10
 └─ myvenv
-└─ GiropeuProject
- ├─ giropeuProject/
+└─ taskManageProject
+ ├─ taskManageProject/
  │  ├─ __init__.py
  │  ├─ asgi.py
  │  ├─ settings.py
