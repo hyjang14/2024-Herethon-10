@@ -13,7 +13,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 이런 사소한 것까지 내가 해야하나 싶고, 한 사람이 너무 많은 걸 책임지고 있는 건 아닌가 싶은 그런 때. <br>
 <기로프>를 사용하여 일을 공평하게 분배해보세요! <br><br>
 
-<img width="100%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/8d965e7b-b3cb-44a0-81b7-d9901896f22b"/> 
+<img width="100%" src="https://github.com/user-attachments/assets/15cb51d1-4083-434d-b174-22fc18a39481"/> 
 <br><br>
 
 
@@ -27,7 +27,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
   
   |송은지|강주은|정새영|이정은|장하연|
   |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
-  |<img width="80%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/0c61cce5-7534-43a9-877e-bf7febd1e030"/>|<img width="80%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/f43656f4-1f4a-4c25-80ff-8eee7405f2be"/>|<img width="80%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/3cee2c61-982f-45cf-9259-5f965c2d127e"/>|<img width="80%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/1a93cd52-26aa-4f6a-9acb-109920458dbd"/>|<img width="80%" src="https://github.com/hyjang14/2024-Herethon-backend/assets/126192446/d56f17ef-3f14-4bb9-adad-be25d4f17f6b"/>|
+  |<img width="80%" src="https://github.com/user-attachments/assets/37f8f7f2-1e13-494e-a986-b153858b07d5"/>|<img width="80%" src="https://github.com/user-attachments/assets/0f12002f-3b09-4f5f-9375-5d1c9249799b"/>|<img width="80%" src="https://github.com/user-attachments/assets/1b8c04e0-dfa4-4a4d-b98a-664fbbb5759d"/>|<img width="80%" src="https://github.com/user-attachments/assets/0c7d9cb8-8101-4b34-be72-dab131c3584a"/>|<img width="80%" src="https://github.com/user-attachments/assets/107039e6-ece1-4167-9e4d-2acf870987b3"/>|
   |<b>기획·디자인|<b>프론트엔드|<b>프론트엔드|<b>백엔드|<b>백엔드|
   |서비스 디자인|회원가입·로그인 퍼블리싱|팀 퍼블리싱|할일 CRUD 구현|계정관리·비번 재설정 구현|
   |PPT 디자인|약관동의 퍼블리싱|그래프 퍼블리싱|그래프 기능 구현|팀 CRUD 구현|
