@@ -33,7 +33,7 @@ https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=shari
   |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
   |<img width="80%" src="https://github.com/user-attachments/assets/37f8f7f2-1e13-494e-a986-b153858b07d5"/>|<img width="80%" src="https://github.com/user-attachments/assets/0f12002f-3b09-4f5f-9375-5d1c9249799b"/>|<img width="80%" src="https://github.com/user-attachments/assets/1b8c04e0-dfa4-4a4d-b98a-664fbbb5759d"/>|<img width="80%" src="https://github.com/user-attachments/assets/0c7d9cb8-8101-4b34-be72-dab131c3584a"/>|<img width="80%" src="https://github.com/user-attachments/assets/107039e6-ece1-4167-9e4d-2acf870987b3"/>|
   |<b>기획·디자인|<b>프론트엔드|<b>프론트엔드|<b>백엔드|<b>백엔드|
-  |서비스 디자인|회원가입·로그인 퍼블리싱|팀 퍼블리싱|할일 CRUD 구현|계정관리·비번 재설정 구현|
+  |서비스 디자인|회원가입·로그인 퍼블리싱|팀 퍼블리싱|할일 CRUD 구현|회원관리·비밀번호 재설정 구현|
   |PPT 디자인|약관동의 퍼블리싱|그래프 퍼블리싱|그래프 기능 구현|팀 CRUD 구현|
 
 <br>
