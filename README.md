@@ -75,3 +75,8 @@ $ source myvenv/Scripts/activate
 $ cd taskmanageProject
 $ python manage.py runserver
 ```
+<br>
+
+### 6. 시연영상 링크
+https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=sharing
+
