@@ -18,7 +18,8 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 
 ### 2. 시연영상
 https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=sharing
-<br>
+
+<br><br>
 
 ### 3. 기술 스택
 
