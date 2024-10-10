@@ -16,7 +16,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 <img width="100%" src="https://github.com/user-attachments/assets/15cb51d1-4083-434d-b174-22fc18a39481"/> 
 <br><br>
 
-### 2. 시연영상
+### 2. 기로프 시연영상
 https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=sharing
 
 <br>
