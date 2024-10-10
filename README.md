@@ -16,14 +16,17 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 <img width="100%" src="https://github.com/user-attachments/assets/15cb51d1-4083-434d-b174-22fc18a39481"/> 
 <br><br>
 
+### 2. 시연영상
+https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=sharing
+<br>
 
-### 2. 기술 스택
+### 3. 기술 스택
 
   프론트엔드: <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><br><br>
   백엔드: <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><br><br>
   기획·디자인: <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 <br><br>
-  ### 3. 팀원 소개
+### 4. 팀원 소개
   
   |송은지|강주은|정새영|이정은|장하연|
   |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -34,7 +37,7 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 
 <br>
 
-### 4. 폴더 구조
+### 5. 폴더 구조
 
 ```
 📂 HERETHON-TEAM-10
@@ -68,15 +71,11 @@ https://n.news.naver.com/article/092/0002337413?sid=105  <br><br>
 ```
 <br>
 
-### 5. 개발환경에서의 실행 방법
+### 6. 개발환경에서의 실행 방법
 
 ```
 $ source myvenv/Scripts/activate
 $ cd taskmanageProject
 $ python manage.py runserver
 ```
-<br>
-
-### 6. 시연영상 링크
-https://drive.google.com/file/d/16M7j2rg1k5wO_oGafOebEFV28DtTb5ka/view?usp=sharing
 
